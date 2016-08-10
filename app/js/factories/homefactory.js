@@ -5,12 +5,12 @@ angular.module("LockChain").factory("HomeFactory", function(){
 	
 	///////////////////////////////////////////////////////////////////////////
 	// getRegistered
-	// Gets The Regsitered Devices For The Specified Account y calling web3 RPC
+	// Gets The Registered Devices For The Specified Account y calling web3 RPC
 	// Interface To Blockchain
 	///////////////////////////////////////////////////////////////////////////
 	var getRegistered = function(){
 		var contract = LockManager.deployed();
-	}
+	};
 
 	///////////////////////////////////////////////////////////////////////////
 	// Register

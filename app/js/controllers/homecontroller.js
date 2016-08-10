@@ -1,11 +1,15 @@
-angular.module("LockChain").controller("HomeController", ["$scope", "$rootScope","HomeFactory", "AccountFactory", function($scope,$rootScope,HomeFactory,ConfigFactory){
+angular.module("LockChain").controller("HomeController", ["$scope", "$rootScope","HomeFactory", "AccountFactory","EventFactory", function($scope,$rootScope,HomeFactory,AccountFactory,EventFactory){
 
 
 	console.log("Entered HomeController");
-	$scope.accounts = ConfigFactory.getAccounts();
-	$scope.defaultAccount = ConfigFactory.getDefaultAccount();
+	$scope.accounts = AccountFactory.getAccounts();
+	$scope.defaultAccount = AccountFactory.getDefaultAccount();
 	$scope.selectedAccount = $scope.defaultAccount;
 	loadDataforAccount($scope.selectedAccount);
+
+	var event = EventFactory.registerForEvents();
+	EventFactory.startWatching(event);
+
 	
 	function loadDataforAccount(account){
 		
@@ -22,6 +26,14 @@ angular.module("LockChain").controller("HomeController", ["$scope", "$rootScope"
 
 	$scope.selectedAccountChanged = function(){
 		loadDataforAccount($scope.selectedAccount);
+	}
+
+	$scope.testEventTrace = function(){
+		var lockAPIContract = LockAPI.deployed();
+		return lockAPIContract.Register("0x94f683fe1e5cc9a1b24143b2f8b6b989b017a368", {from: $scope.selectedAccount}).then(function(transactionId){
+			console.log(transactionId);	
+		});
+
 	}
 
 	/*$scope.sendIt = function(){

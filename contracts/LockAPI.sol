@@ -36,25 +36,38 @@ contract LockAPI is LockAPIBase{
 	////////////////////////////////////////////////////////////////////////////
 	mapping(address=>bool) resourceState;
 
+
+	////////////////////////////////////////////////////////////////////////////
+	// Event Declarations
+	////////////////////////////////////////////////////////////////////////////
+	event LockStateChanged(address indexed resource, address indexed by, bytes32 message);
+	event RegisterChanged(address indexed resource, address indexed by, bytes32 message);
+	event Tracer(address indexed resource, address indexed by, bytes32 message);
+
+	
     function Register(address resource){
         resourceState[resource]=false; 
         Grant(resource,msg.sender);
+        RegisterChanged(resource, msg.sender, "Registered");
     }
     ////////////////////////////////////////////////////////////////////////////
 	// Base Class Implementation
 	////////////////////////////////////////////////////////////////////////////
 	function Lock(address resource) requireAuthorisation(resource) returns (bool result){
 		resourceState[resource]=false;
+		LockStateChanged(resource, msg.sender, "Locked");
 		result=true;
 	}
 
 	function Unlock(address resource) requireAuthorisation(resource) returns (bool result){
 		resourceState[resource]=true;
+		LockStateChanged(resource, msg.sender, "Unlocked");
 		result=true;
 	}
 	
 	function IsLocked(address resource) requireAuthorisation(resource) constant returns (bool locked){
 		locked=!resourceState[resource];
+		Tracer(resource, msg.sender,"IsLocked Query");
 	}
 
    

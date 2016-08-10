@@ -26,7 +26,8 @@ module.exports = {
          "js/controllers/registercontroller.js",
          "js/factories/accountfactory.js",
          "js/factories/homefactory.js",
-         "js/factories/lockfactory.js" 
+         "js/factories/lockfactory.js",
+         "js/factories/eventfactory.js" 
     ],
 
     ////////////////////////////////////////////////////////////////////////////////////

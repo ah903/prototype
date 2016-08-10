@@ -493,7 +493,7 @@ var Web3 = require("web3");
         "type": "function"
       }
     ],
-    "updated_at": 1470830191155,
+    "updated_at": 1470845855723,
     "links": {}
   }
 };
