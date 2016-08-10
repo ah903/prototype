@@ -12,11 +12,17 @@
         <h1>Your Household</h1>
     </div>
     <div class="col-sm-6">
-      <label for selectedAccount>Select Account - {{accounts.length}} Account(s) Found</label>
-      <select id="selectedAccount" class="form-control" ng-model="selectedAccount" 
-              ng-options="account for account in accounts" 
-              ng-change="selectedAccountChanged()">
-      </select> 
+      <div class="row">
+        <label for selectedAccount>Select Account - {{accounts.length}} Account(s) Found</label>
+        <select id="selectedAccount" class="form-control" ng-model="selectedAccount" 
+                ng-options="account for account in accounts" 
+                ng-change="selectedAccountChanged()">
+        </select> 
+    </div>
+    <div class="row text-right">
+      <p>&nbsp;</p>
+        <a class="btn btn-success" href="#/register" role="button">Register a New Device</a>
+    </div>
     </div>
   </div> 
   <div class="row" ng-Hide="household.length==0">
@@ -36,5 +42,5 @@
     <div class="col-sm-12 text-center">
       <h2>No Devices Registered To This Address</h2>
     </div>
-  </div>  
+  </div>
 </div>      
