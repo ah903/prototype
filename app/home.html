@@ -7,25 +7,26 @@
 
 
 <div class="container">
-  <div class="row">
+  <div class="row panel panel-default">
     <div class="col-sm-6">
         <h1>Your Household</h1>
     </div>
     <div class="col-sm-6">
-      <div class="row">
-        <label for selectedAccount>Select Account - {{accounts.length}} Account(s) Found</label>
+      <div class="row" style="margin-right:0">
+        <label for selectedAccount style=" margin-top: 1em;">Select Account - {{accounts.length}} Account(s) Found</label>
         <select id="selectedAccount" class="form-control" ng-model="selectedAccount" 
                 ng-options="account for account in accounts" 
                 ng-change="selectedAccountChanged()">
         </select> 
     </div>
-    <div class="row text-right">
-      <p>&nbsp;</p>
+    <div class="row text-right" style="margin-right:0">
+        <p>&nbsp;</p>
         <a class="btn btn-success" href="#/register" role="button">Register a New Device</a>
+        <p>&nbsp;</p>
     </div>
     </div>
   </div> 
-  <div class="row" ng-Hide="household.length==0">
+  <div class="row panel panel-default" ng-Hide="household.length==0">
     <div class="col-sm-6 col-md-4 col-lg-4" ng-repeat= "device in household">
       <h2>{{device.Location}}</h2>
       <p>{{device.Description}}</p>
