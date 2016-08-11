@@ -19,6 +19,36 @@ angular.module("LockChain").controller("EventController", ["$scope", "$rootScope
 	var event;
 
 	///////////////////////////////////////////////////////////////////////
+	// Toggle Blockchain Event Trace
+	///////////////////////////////////////////////////////////////////////
+	$scope.toggleEventTrace = function(){
+		//if($scope.eventStatus == $scope.watchStatus.NotWatching){
+		//	startEventTrace();
+		//}
+		//else{
+		//	stopEventTrace();
+		//}
+		getTransactionLog();
+		getEventLog();
+	}
+
+	function getTransactionLog(){
+		var lockAPIContract = LockAPI.deployed();
+		var filterOptions  = {address: lockAPIContract.address, fromBlock: 0, toBlock: 'latest'};
+		EventFactory.getTransactionLog(filterOptions,function(error,result){
+			console.log(result);	
+		});
+	}
+
+	function getEventLog(){
+		var lockAPIContract = LockAPI.deployed();
+		var filterOptions  = {address: lockAPIContract.address, fromBlock: 0, toBlock: 'latest'};
+		EventFactory.getEventLog(filterOptions,function(error,result){
+			console.log(result);	
+		});
+	}
+
+	///////////////////////////////////////////////////////////////////////
 	// Start Blockchain Event Trace
 	///////////////////////////////////////////////////////////////////////
 	function startEventTrace(){
@@ -52,19 +82,6 @@ angular.module("LockChain").controller("EventController", ["$scope", "$rootScope
 		EventFactory.stopWatching(event);
 		$scope.eventStatus = $scope.watchStatus.NotWatching;
 		
-	}
-	
-	
-	///////////////////////////////////////////////////////////////////////
-	// Toggle Blockchain Event Trace
-	///////////////////////////////////////////////////////////////////////
-	$scope.toggleEventTrace = function(){
-		if($scope.eventStatus == $scope.watchStatus.NotWatching){
-			startEventTrace();
-		}
-		else{
-			stopEventTrace();
-		}
 	}
 
 

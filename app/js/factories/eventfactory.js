@@ -1,7 +1,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Event Factory
+///////////////////////////////////////////////////////////////////////////////
 // Sets Up, Shutsdown and Monitors The Blockchain for new events using
 // Filters supplied by consuming applications
+///////////////////////////////////////////////////////////////////////////////
+// LD042 Advanced Web Engineering
+// Andrew Hall 2016
 ///////////////////////////////////////////////////////////////////////////////
 angular.module("LockChain").factory("EventFactory", function(){
 
@@ -14,9 +18,9 @@ angular.module("LockChain").factory("EventFactory", function(){
 
 		var lockAPIContract = LockAPI.deployed();
 		var eventWatcher = lockAPIContract.StateChanged({},filterOptions);
+		console.log(eventWatcher);
 		return eventWatcher;	
 	};
-
 
 	///////////////////////////////////////////////////////////////////////////
 	// Event Start Watching
@@ -39,19 +43,45 @@ angular.module("LockChain").factory("EventFactory", function(){
 	};
 
 	///////////////////////////////////////////////////////////////////////////
-	// Get Event History
+	// Get Blockchain Transaction Log
+	// Stop Watching the Event, Disables the event on the chain 
+	///////////////////////////////////////////////////////////////////////////
+	var getTransactionLog = function(filterOptions, callback){
+		var lockAPIContract = LockAPI.deployed();
+		var filter = web3.eth.filter(filterOptions);
+		filter.get(function(error, result){
+			callback(error,result);
+		});	
+	};
+
+
+	///////////////////////////////////////////////////////////////////////////
+	// Get Blockchain Event History
 	// Returns the event History based on the filter options
 	// Useful when not wishing to start an event
 	///////////////////////////////////////////////////////////////////////////
-	var getEventHistory=function(eventWatcher){
-		return eventWatcher.get();
+	//var getEventLog=function(eventWatcher, callback){
+	//	eventWatcher.get(function(error,result){
+	//		callback(error,result);	
+	//	});	
+	//};
+	//var getEventLog=function(eventWatcher){
+	//	return eventWatcher.get();
+	//};
+	var getEventLog=function(filterOptions, callback){
+		var lockAPIContract = LockAPI.deployed();
+		var filter = lockAPIContract.allEvents(filterOptions);
+		var myResults = filter.get(function(error,result){
+			callback(error,result);	
+		});	
 	};
 
 	return{
 		registerForEvents: registerForEvents,
 		startWatching:startWatching,
 		stopWatching:stopWatching,
-		getEventHistory:getEventHistory
+		getTransactionLog:getTransactionLog,
+		getEventLog:getEventLog
 
 	};
 });
