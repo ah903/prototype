@@ -40,34 +40,34 @@ contract LockAPI is LockAPIBase{
 	////////////////////////////////////////////////////////////////////////////
 	// Event Declarations
 	////////////////////////////////////////////////////////////////////////////
-	event LockStateChanged(address indexed resource, address indexed by, bytes32 message);
-	event RegisterChanged(address indexed resource, address indexed by, bytes32 message);
-	event Tracer(address indexed resource, address indexed by, bytes32 message);
-
+	event StateChanged(address indexed resource, address indexed by, bytes32 message);
 	
+    
+	////////////////////////////////////////////////////////////////////////////
+	// LockAPI Specific Implementation
+	////////////////////////////////////////////////////////////////////////////
     function Register(address resource){
         resourceState[resource]=false; 
         Grant(resource,msg.sender);
-        RegisterChanged(resource, msg.sender, "Registered");
+        StateChanged(resource, msg.sender, "New Device Registered");
     }
     ////////////////////////////////////////////////////////////////////////////
 	// Base Class Implementation
 	////////////////////////////////////////////////////////////////////////////
 	function Lock(address resource) requireAuthorisation(resource) returns (bool result){
 		resourceState[resource]=false;
-		LockStateChanged(resource, msg.sender, "Locked");
+		StateChanged(resource, msg.sender, "Device Locked");
 		result=true;
 	}
 
 	function Unlock(address resource) requireAuthorisation(resource) returns (bool result){
 		resourceState[resource]=true;
-		LockStateChanged(resource, msg.sender, "Unlocked");
+		StateChanged(resource, msg.sender, "Device Unlocked");
 		result=true;
 	}
 	
 	function IsLocked(address resource) requireAuthorisation(resource) constant returns (bool locked){
 		locked=!resourceState[resource];
-		Tracer(resource, msg.sender,"IsLocked Query");
 	}
 
    

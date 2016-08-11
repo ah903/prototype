@@ -14,9 +14,6 @@ angular.module("LockChain").factory("AccountFactory", function(){
 	// Account Factory As The Data Source. 
 	///////////////////////////////////////////////////////////////////////////
 	var getAccounts = function(callback){
-		//web3.eth.getAccounts(function(error, result){
-		//	callback(error,result);
-		//});
 		return web3.eth.accounts;
 	};
 
@@ -28,9 +25,6 @@ angular.module("LockChain").factory("AccountFactory", function(){
 	// The accounts[0] Coinbase
 	///////////////////////////////////////////////////////////////////////////
 	var getDefaultAccount = function(callback){
-		//web3.eth.coinbase(function(error, result){
-		//	callback(error,result);
-		//});
 		return web3.eth.coinbase;
 	};
 

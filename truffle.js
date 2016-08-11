@@ -21,13 +21,15 @@ module.exports = {
          "js/vendor/bootstrap.min.js",
          "js/app.js",
          "js/controllers/accountcontroller.js",
+         "js/controllers/eventcontroller.js",
          "js/controllers/homecontroller.js",
          "js/controllers/lockcontroller.js",
          "js/controllers/registercontroller.js",
          "js/factories/accountfactory.js",
          "js/factories/homefactory.js",
          "js/factories/lockfactory.js",
-         "js/factories/eventfactory.js" 
+         "js/factories/eventfactory.js",
+
     ],
 
     ////////////////////////////////////////////////////////////////////////////////////
