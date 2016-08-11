@@ -3,7 +3,7 @@
 // Controller To Manage Dashboard Aspects Of The Application On The Home Page
 // Depends On Home Factory, Event Factory and Account Factory For Data
 ///////////////////////////////////////////////////////////////////////////////
-angular.module("LockChain").controller("HomeController", ["$scope", "$rootScope","HomeFactory", "AccountFactory","EventFactory", function($scope,$rootScope,HomeFactory,AccountFactory,EventFactory){
+angular.module("LockChain").controller("HomeController", ["$scope", "$rootScope","HomeFactory", "AccountFactory","EventFactory", "LockFactory", function($scope,$rootScope,HomeFactory,AccountFactory,EventFactory,LockFactory){
 
 	console.log("Entered HomeController");
 
@@ -51,21 +51,41 @@ angular.module("LockChain").controller("HomeController", ["$scope", "$rootScope"
 
 	}
 
-	/*$scope.testEventTrace = function(){
-		var lockAPIContract = LockAPI.deployed();
-		var watcher = lockAPIContract.StateChanged();
-		return lockAPIContract.Register("0x94f683fe1e5cc9a1b24143b2f8b6b989b017a368", {from: $scope.selectedAccount})
-		.then(function(transactionId){
-			console.log(transactionId);	
-			return watcher.get();
-		}).then(function(events){
-			console.log(events);
+	///////////////////////////////////////////////////////////////////////
+	// Toggle Lock
+	// Changes the Lock State From Locked To Unlocked or Vice Versa
+	///////////////////////////////////////////////////////////////////////
+	$scope.toggleLock = function(index){
+		if($scope.household[index].Locked){
+			unlock(index); return
+		}
+		
+		lock(index);
+	};
+
+	///////////////////////////////////////////////////////////////////////
+	// Function Lock
+	// Use the Lock Factory To Post the Locking Transaction
+	///////////////////////////////////////////////////////////////////////
+	function lock(index){
+		LockFactory.lock($scope.selectedAccount,$scope.household[index].Id, function(result){
+			console.log("TransactionId " + result);
+			$scope.household[index].Locked = true;
+			console.log("Change Lock State On " + $scope.household[index].Location + " to " + $scope.household[index].Locked);		
 		});
+	};
 
-	}*/
-
-
-	
+	///////////////////////////////////////////////////////////////////////
+	// Function Unlock
+	// Use the Lock Factory To Post the Unlocking Transaction
+	///////////////////////////////////////////////////////////////////////
+	function unlock(index){
+		LockFactory.unlock($scope.selectedAccount,$scope.household[index].Id, function(result){
+			console.log("TransactionId " + result);
+			$scope.household[index].Locked = false;
+			console.log("Change Lock State On " + $scope.household[index].Location + " to " + $scope.household[index].Locked);
+		});
+	};
 
 	/*$scope.sendIt = function(){
 		var contract = test.deployed();
