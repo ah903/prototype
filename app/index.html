@@ -58,6 +58,7 @@
           <button class="btn btn-success pull-right" ng-click="toggleEventTrace()" role="button">{{eventStatus == watchStatus.NotWatching ? "Start Watching" : "Stop Watching"}}</button> 
         </div>
       </div>
+      <!-- TABLE FOR NEW RECEIVED EVENTS --> 
       <div class="row">
         <div class="col-sm-12">
           <p><label id="eventStatus" name="eventStatus">{{eventStatus}}</label></p>
@@ -74,7 +75,7 @@
                   <tr>
                     <td>{{event.blockNumber}}</td>
                     <td>{{event.event}}</td>
-                    <td>{{event.args.messageToAscii}}</td>
+                    <td>{{toAscii(event.args.message)}}</td>
                     <td>{{event.args.by}}</td>
                     <td>{{event.args.resource}}</td>
                   </tr>
@@ -83,7 +84,33 @@
             </div>  
         </div>
       </div>
+      <!-- TABLE FOR EVENT LOG HISTORY -->        
+      <div class="row">
+        <div class="col-sm-12" ng-Show="eventLog!=null">
+            <p><label id="Contract Events" name="Contract Events">Contract Events</label></p>
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <td><strong>Block Number</strong></td>
+                  <td><strong>Source</strong></td>
+                  <td><strong>Description</strong></td> 
+                  <td><strong>From</strong></td> 
+                  <td><strong>Resource</strong></td>     
+                </thead>
+                <tbody>
+                  <tr ng-repeat="event in eventLog | orderBy:'event.blockNumber':true">
+                    <td>{{event.blockNumber}}</td>
+                    <td>{{event.event}}</td>
+                    <td>{{toAscii(event.args.message)}}</td>
+                    <td>{{event.args.by}}</td>
+                    <td>{{event.args.resource}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>  
+        </div>
       </div>  
+    
     </div>  
 
     <footer>

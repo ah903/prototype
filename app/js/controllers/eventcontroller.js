@@ -35,11 +35,20 @@ angular.module("LockChain").controller("EventController", ["$scope", "$rootScope
 	}
 
 	///////////////////////////////////////////////////////////////////////
+	// Covefrsion Utility For Displaying Hex Strings As Text
+	///////////////////////////////////////////////////////////////////////
+	$scope.toAscii = function(item){
+		console.log(item);
+		if(item){return web3.toAscii(item)};
+	}
+
+	///////////////////////////////////////////////////////////////////////
 	// Get Blockchain Transaction Log
 	///////////////////////////////////////////////////////////////////////
 	function getTransactionLog(){
 		var lockAPIContract = LockAPI.deployed();
-		var filterOptions  = {address: lockAPIContract.address, fromBlock: 0, toBlock: 'latest'};
+		var lastBlock = web3.eth.getBlock("latest").transactions[0].blockNumber;
+		var filterOptions  = {address: lockAPIContract.address, fromBlock: lastBlock-20, toBlock: 'latest'};
 		EventFactory.getTransactionLog(filterOptions,function(error,result){
 			$scope.transactionLog=result;	
 			console.log(result);
@@ -51,7 +60,8 @@ angular.module("LockChain").controller("EventController", ["$scope", "$rootScope
 	///////////////////////////////////////////////////////////////////////
 	function getEventLog(){
 		var lockAPIContract = LockAPI.deployed();
-		var filterOptions  = {address: lockAPIContract.address, fromBlock: 0, toBlock: 'latest'};
+		var lastBlock = web3.eth.getBlock("latest").transactions[0].blockNumber;
+		var filterOptions  = {address: lockAPIContract.address, fromBlock: lastBlock-20, toBlock: 'latest'};
 		EventFactory.getEventLog(filterOptions,function(error,result){
 			$scope.eventLog = result;
 			console.log(result);	
@@ -74,10 +84,11 @@ angular.module("LockChain").controller("EventController", ["$scope", "$rootScope
 		///////////////////////////////////////////////////////////////////
 		EventFactory.startWatching(eventWatcher, function(error, result){
 			if(!error){
-				result.args.messageToAscii=web3.toAscii(result.args.message);
+				//result.args.messageToAscii=web3.toAscii(result.args.message);
 				$scope.$apply(function(){
 					$scope.eventStatus = $scope.watchStatus.Received + " " + result.event;
 		        	$scope.event = result;
+		        	getEventLog();
 		        });
 			}
 

@@ -12,7 +12,7 @@ angular.module("LockChain").controller("LockController", ["$scope", "LockFactory
 
 	console.log("Entered LockController");
 	$scope.household = initialise();
-	
+
 	function initialise(){
 		
 		var locations = [];
