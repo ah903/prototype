@@ -16,34 +16,44 @@ angular.module("LockChain").controller("EventController", ["$scope", "$rootScope
 	};
 
 	$scope.eventStatus = $scope.watchStatus.NotWatching;
-	var event;
+	$scope.eventLog = getEventLog();
+	$scope.transactionLog = null;
+	var eventWatcher;
 
 	///////////////////////////////////////////////////////////////////////
 	// Toggle Blockchain Event Trace
 	///////////////////////////////////////////////////////////////////////
 	$scope.toggleEventTrace = function(){
-		//if($scope.eventStatus == $scope.watchStatus.NotWatching){
-		//	startEventTrace();
-		//}
-		//else{
-		//	stopEventTrace();
-		//}
-		getTransactionLog();
-		getEventLog();
+		if($scope.eventStatus == $scope.watchStatus.NotWatching){
+			startEventWatch();
+		}
+		else{
+			stopEventWatch();
+		}
+		//getTransactionLog();
+		//getEventLog();
 	}
 
+	///////////////////////////////////////////////////////////////////////
+	// Get Blockchain Transaction Log
+	///////////////////////////////////////////////////////////////////////
 	function getTransactionLog(){
 		var lockAPIContract = LockAPI.deployed();
 		var filterOptions  = {address: lockAPIContract.address, fromBlock: 0, toBlock: 'latest'};
 		EventFactory.getTransactionLog(filterOptions,function(error,result){
-			console.log(result);	
+			$scope.transactionLog=result;	
+			console.log(result);
 		});
 	}
 
+	///////////////////////////////////////////////////////////////////////
+	// Get Blockchain Event Log
+	///////////////////////////////////////////////////////////////////////
 	function getEventLog(){
 		var lockAPIContract = LockAPI.deployed();
 		var filterOptions  = {address: lockAPIContract.address, fromBlock: 0, toBlock: 'latest'};
 		EventFactory.getEventLog(filterOptions,function(error,result){
+			$scope.eventLog = result;
 			console.log(result);	
 		});
 	}
@@ -51,18 +61,18 @@ angular.module("LockChain").controller("EventController", ["$scope", "$rootScope
 	///////////////////////////////////////////////////////////////////////
 	// Start Blockchain Event Trace
 	///////////////////////////////////////////////////////////////////////
-	function startEventTrace(){
+	function startEventWatch(){
 	
-		///////////////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////
 		// Register A New Event With the Factory 
-		///////////////////////////////////////////////////////////////////////
-		event = EventFactory.registerForEvents();
+		///////////////////////////////////////////////////////////////////
+		eventWatcher = EventFactory.registerForEvents();
 		$scope.eventStatus = $scope.watchStatus.Watching;
 
-		///////////////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////
 		// Start Watching for Events 
-		///////////////////////////////////////////////////////////////////////
-		EventFactory.startWatching(event, function(error, result){
+		///////////////////////////////////////////////////////////////////
+		EventFactory.startWatching(eventWatcher, function(error, result){
 			if(!error){
 				result.args.messageToAscii=web3.toAscii(result.args.message);
 				$scope.$apply(function(){
@@ -77,12 +87,11 @@ angular.module("LockChain").controller("EventController", ["$scope", "$rootScope
 	///////////////////////////////////////////////////////////////////////
 	// Stop Blockchain Event Trace
 	///////////////////////////////////////////////////////////////////////
-	function stopEventTrace(){
+	function stopEventWatch(){
 
-		EventFactory.stopWatching(event);
+		EventFactory.stopWatching(eventWatcher);
 		$scope.eventStatus = $scope.watchStatus.NotWatching;
 		
 	}
-
 
 }]);
