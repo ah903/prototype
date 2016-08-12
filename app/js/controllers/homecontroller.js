@@ -69,9 +69,11 @@ angular.module("LockChain").controller("HomeController", ["$scope", "$rootScope"
 	///////////////////////////////////////////////////////////////////////
 	function lock(index){
 		LockFactory.lock($scope.selectedAccount,$scope.household[index].Id, function(result){
-			console.log("TransactionId " + result);
-			$scope.household[index].Locked = true;
-			console.log("Change Lock State On " + $scope.household[index].Location + " to " + $scope.household[index].Locked);		
+			scope.$apply(function(){
+				console.log("TransactionId " + result);
+				$scope.household[index].Locked = true;
+				console.log("Change Lock State On " + $scope.household[index].Location + " to " + $scope.household[index].Locked);		
+			});
 		});
 	};
 
@@ -81,9 +83,11 @@ angular.module("LockChain").controller("HomeController", ["$scope", "$rootScope"
 	///////////////////////////////////////////////////////////////////////
 	function unlock(index){
 		LockFactory.unlock($scope.selectedAccount,$scope.household[index].Id, function(result){
-			console.log("TransactionId " + result);
-			$scope.household[index].Locked = false;
-			console.log("Change Lock State On " + $scope.household[index].Location + " to " + $scope.household[index].Locked);
+			scope.$apply(function(){
+				console.log("TransactionId " + result);
+				$scope.household[index].Locked = false;
+				console.log("Change Lock State On " + $scope.household[index].Location + " to " + $scope.household[index].Locked);
+			});
 		});
 	};
 

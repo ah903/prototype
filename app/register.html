@@ -1,63 +1,45 @@
 <div class="jumbotron"> 
 </div>  
-<div class="container">
-  <h1>Register</h1>
-  
+<div class="container panel panel-default">  		
+	<h1>New Device</h1>
+	<div class="row">
+		<div class="col-sm-7">
+			<h2>Device Description</h2>
+			<div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <td><strong>Name</strong></td>
+                  <td><strong>Value</strong></td> 
+                  <td><strong>Active</strong></td>    
+                </thead>
+                <tbody>
+                  <tr ng-repeat="attribute in attributes">
+                    <td>{{attribute.name}}</td>
+                    <td>{{attribute.value}}</td>
+                    <td>{{attribute.active}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>  
+		</div>
+		<div class="col-sm-1">
+		</div>
+		<div class="col-sm-4">
+			<h2>Add Description</h2>
+			<label for="name">Attribute Name <small>(required)</small></label>
+			<input ng-model="newAttribute.name" type="text" id="name" name="name" placeholder="*Name" class="form-control" maxlength="32">
+			<p>
 			
-			<div class="row">
-				<div class="col-sm-6">
-					<h2>Shipping Address</h2>
-					<label for="name">Name <small>(required)</small></label>
-					<input ng-model="CurrentUser.name" type="text" id="name" name="name" placeholder="*Name" class="form-control">
-					<p>
-					<label for="streetname">Street Name <small>(required)</small></label>
-					<input ng-model="CurrentUser.address.streetname" type="text" id="streetname" name="streetname" placeholder="*House Number and Street Name" class="form-control">
-					<p>
-					<label for="town">Town <small>(required)</small></label>
-					<input ng-model="CurrentUser.address.town" type="text" id="town" name="town" placeholder="*Town" class="form-control">
-					<label for="town">City <small>(required)</small></label>
-					<input ng-model="CurrentUser.address.city" type="text" id="city" name="city" placeholder="*City" class="form-control">
-					<label for="postcode">PostCode <small>(required)</small></label>
-					<input ng-model="CurrentUser.address.postcode" type="text" id="postcode" name="postcode" placeholder="*PostCode" class="form-control">
-					<label for="telephone">Telephone <small>(required)</small></label>
-					<input ng-model="CurrentUser.address.telephone" type="text" id="telephone" name="telephone" placeholder="*Telephone" class="form-control">
-					<p>
-				</div>
-
-				<div class="col-sm-6">
-					<h2>Payment Details</h2>
-					<label for="cardType">Card Type<small> (required)</small></label>
-					<select name="cardType" ng-model="payment.cardType" id="cardType" class="form-control">
-						<option value="Amercian Express">American Express</option>
-						<option value="MasterCard">MasterCard</option>
-						<option value="Visa">Visa</option>
-						<option value="Debit Card">Debit Card</option>
-					</select>			
-					<p>
-					<label for="cardNumber">Card Number<small> (required)</small></label>
-					<input ng-model="payment.cardNumber" type="number" id="cardNumber" name="cardNumber" placeholder="*Card Number (XXXX XXXX XXXX XXXX)" class="form-control">
-					<p>
-					<div class="row">
-						<div class="col-sm-6">
-							<label for="cardExpiry">Expiry<small> (required)</small></label>
-							<input ng-model="payment.cardExpiry" type="date" id="cardExpiry" name="cardExpiry" placeholder="*Expiry Date" class="form-control">
-						</div>
-						<div class="col-sm-6">		
-							<label for="cardCV">CCV Number<small> (required)</small></label>
-							<input ng-model="payment.cardCV" type="number" id="cardCV" name="cardCV" placeholder="*CCV Number" class="form-control">
-						</div>
-						<p>
-					</div>
-				</div>
-			</div>
+			<label for="value">Value <small>(required)</small></label>
+			<input ng-model="newAttribute.value" type="text" id="value" name="value" placeholder="*Value" class="form-control" maxlength="32">
+			<p>
 			<div class="row">
 				<div class="col-sm-12">
-					<button ng-click="PlaceOrder()" class="btn btn-success btn-lg pull-right">Place Order</button>
+					<button ng-click="addAttribute()" class="btn btn-success pull-right">Add</button>
 				</div>
 			</div>
+		</div>
 
-
-
-
-  </div>
+		
+	</div>	
 </div>   
