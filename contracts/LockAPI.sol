@@ -34,46 +34,41 @@ contract LockAPI is LockAPIBase{
 	////////////////////////////////////////////////////////////////////////////
 	// Private Declarations
 	////////////////////////////////////////////////////////////////////////////
-	mapping(address=>bool) resourceState;
+	mapping(address=>bool) resourceLocked;
 
 
 	////////////////////////////////////////////////////////////////////////////
 	// Event Declarations
 	////////////////////////////////////////////////////////////////////////////
-	event StateChanged(address indexed resource, address indexed by, bytes32 message);
+	event StateChanged(address indexed resource, address indexed by, bytes32 message, bool isLocked);
 	
     
 	////////////////////////////////////////////////////////////////////////////
 	// LockAPI Specific Implementation
 	////////////////////////////////////////////////////////////////////////////
-    function Register(address resource){
-        resourceState[resource]=false; 
+    function Register(address resource, bool lockState){
+        resourceLocked[resource]=lockState; 
         Grant(resource,msg.sender);
-        StateChanged(resource, msg.sender, "New Device Registered");
+        StateChanged(resource, msg.sender, "New Device Registered", resourceLocked[resource]);
     }
     ////////////////////////////////////////////////////////////////////////////
 	// Base Class Implementation
 	////////////////////////////////////////////////////////////////////////////
 	function Lock(address resource) requireAuthorisation(resource) returns (bool result){
-		resourceState[resource]=false;
-		StateChanged(resource, msg.sender, "Device Locked");
+		resourceLocked[resource]=true;
+		StateChanged(resource, msg.sender, "Device Locked", resourceLocked[resource]);
 		result=true;
 	}
 
 	function Unlock(address resource) requireAuthorisation(resource) returns (bool result){
-		resourceState[resource]=true;
-		StateChanged(resource, msg.sender, "Device Unlocked");
+		resourceLocked[resource]=false;
+		StateChanged(resource, msg.sender, "Device Unlocked", resourceLocked[resource]);
 		result=true;
 	}
 	
 	function IsLocked(address resource) requireAuthorisation(resource) constant returns (bool locked){
-		locked=!resourceState[resource];
+		locked=resourceLocked[resource];
 	}
 
    
 }
-
-
-
-
-

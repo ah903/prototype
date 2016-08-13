@@ -30,15 +30,12 @@ angular.module("LockChain").controller("EventController", ["$scope", "$rootScope
 		else{
 			stopEventWatch();
 		}
-		//getTransactionLog();
-		//getEventLog();
 	}
 
 	///////////////////////////////////////////////////////////////////////
-	// Covefrsion Utility For Displaying Hex Strings As Text
+	// Coversion Utility For Displaying Hex Strings As Text
 	///////////////////////////////////////////////////////////////////////
 	$scope.toAscii = function(item){
-		console.log(item);
 		if(item){return web3.toAscii(item)};
 	}
 
@@ -47,12 +44,19 @@ angular.module("LockChain").controller("EventController", ["$scope", "$rootScope
 	///////////////////////////////////////////////////////////////////////
 	function getTransactionLog(){
 		var lockAPIContract = LockAPI.deployed();
-		var lastBlock = web3.eth.getBlock("latest").transactions[0].blockNumber;
-		var filterOptions  = {address: lockAPIContract.address, fromBlock: lastBlock-20, toBlock: 'latest'};
+		
+		var lastBlock = 0;
+		
+		if(web3.eth.getBlock("latest").transactions.length >0 && web3.eth.getBlock("latest").transactions[0].blockNumber > 20){
+			lastBlock = web3.eth.getBlock("latest").transactions[0].blockNumber-20;	
+		}
+		
+		var filterOptions  = {address: lockAPIContract.address, fromBlock: lastBlock, toBlock: 'latest'};
 		EventFactory.getTransactionLog(filterOptions,function(error,result){
 			$scope.transactionLog=result;	
 			console.log(result);
 		});
+		return [];
 	}
 
 	///////////////////////////////////////////////////////////////////////
@@ -60,12 +64,26 @@ angular.module("LockChain").controller("EventController", ["$scope", "$rootScope
 	///////////////////////////////////////////////////////////////////////
 	function getEventLog(){
 		var lockAPIContract = LockAPI.deployed();
-		var lastBlock = web3.eth.getBlock("latest").transactions[0].blockNumber;
-		var filterOptions  = {address: lockAPIContract.address, fromBlock: lastBlock-20, toBlock: 'latest'};
+		
+		var lastBlock = 0;
+		if(web3.eth.getBlock("latest").transactions.length >0 && web3.eth.getBlock("latest").transactions[0].blockNumber > 20){
+			lastBlock = web3.eth.getBlock("latest").transactions[0].blockNumber-20;	
+		}
+		
+		var filterOptions  = {address: lockAPIContract.address, fromBlock: lastBlock, toBlock: 'latest'};
+		var filterOptions  = {fromBlock: lastBlock, toBlock: 'latest'};
+		console.log(filterOptions);
+		
 		EventFactory.getEventLog(filterOptions,function(error,result){
 			$scope.eventLog = result;
-			console.log(result);	
+			console.log(result);
 		});
+		//////////////////////////////////////////////////////
+		// Return Immediately So When Results Are Loaded
+		// A Scope Change Will Be Triggered On The Model
+		//////////////////////////////////////////////////////
+		return [];
+
 	}
 
 	///////////////////////////////////////////////////////////////////////

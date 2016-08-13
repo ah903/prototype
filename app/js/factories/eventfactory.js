@@ -3,6 +3,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Sets Up, Shutsdown and Monitors The Blockchain for new events using
 // Filters supplied by consuming applications
+// Basic Filter Approach To History
+// var filter = web3.eth.filter({fromBlock: 350000, toBlock: 'latest'});
+// filter.get(function(error, result){ console.log(error, result); })
 ///////////////////////////////////////////////////////////////////////////////
 // LD042 Advanced Web Engineering
 // Andrew Hall 2016
@@ -75,6 +78,15 @@ angular.module("LockChain").factory("EventFactory", function(){
 			callback(error,result);	
 		});	
 	};
+
+	var getEventLogOld = function(filterOptions,callback){
+		var lockAPIContract = LockAPI.deployed();
+		web3.eth.filter({fromBlock: 0, toBlock: 'latest'})
+		.get(function(e,logs){
+			console.log(logs);
+		});
+		
+	}
 
 	return{
 		registerForEvents: registerForEvents,

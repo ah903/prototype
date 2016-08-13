@@ -45,7 +45,7 @@ angular.module("LockChain").controller("HomeController", ["$scope", "$rootScope"
 	///////////////////////////////////////////////////////////////////////
 	$scope.testEventTrace = function(){
 		var lockAPIContract = LockAPI.deployed();
-		return lockAPIContract.Register("0x94f683fe1e5cc9a1b24143b2f8b6b989b017a368", {from: $scope.selectedAccount}).then(function(transactionId){
+		return lockAPIContract.Register("0x94f683fe1e5cc9a1b24143b2f8b6b989b017a368", true, {from: $scope.selectedAccount}).then(function(transactionId){
 			console.log(transactionId);	
 		});
 
@@ -69,7 +69,7 @@ angular.module("LockChain").controller("HomeController", ["$scope", "$rootScope"
 	///////////////////////////////////////////////////////////////////////
 	function lock(index){
 		LockFactory.lock($scope.selectedAccount,$scope.household[index].Id, function(result){
-			scope.$apply(function(){
+			$scope.$apply(function(){
 				console.log("TransactionId " + result);
 				$scope.household[index].Locked = true;
 				console.log("Change Lock State On " + $scope.household[index].Location + " to " + $scope.household[index].Locked);		
@@ -83,7 +83,7 @@ angular.module("LockChain").controller("HomeController", ["$scope", "$rootScope"
 	///////////////////////////////////////////////////////////////////////
 	function unlock(index){
 		LockFactory.unlock($scope.selectedAccount,$scope.household[index].Id, function(result){
-			scope.$apply(function(){
+			$scope.$apply(function(){
 				console.log("TransactionId " + result);
 				$scope.household[index].Locked = false;
 				console.log("Change Lock State On " + $scope.household[index].Location + " to " + $scope.household[index].Locked);

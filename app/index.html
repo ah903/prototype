@@ -58,7 +58,7 @@
           <button class="btn btn-success pull-right" ng-click="toggleEventTrace()" role="button">{{eventStatus == watchStatus.NotWatching ? "Start Watching" : "Stop Watching"}}</button> 
         </div>
       </div>
-      <!-- TABLE FOR NEW RECEIVED EVENTS --> 
+      <!-- TABLE FOR NEW RECEIVED EVENTS WARCHING ACTIVE--> 
       <div class="row">
         <div class="col-sm-12">
           <p><label id="eventStatus" name="eventStatus">{{eventStatus}}</label></p>
@@ -86,7 +86,7 @@
       </div>
       <!-- TABLE FOR EVENT LOG HISTORY -->        
       <div class="row">
-        <div class="col-sm-12" ng-Show="eventLog!=null">
+        <div class="col-sm-12" ng-Show="eventLog.length > 0">
             <p><label id="Contract Events" name="Contract Events">Contract Events</label></p>
             <div class="table-responsive">
               <table class="table">

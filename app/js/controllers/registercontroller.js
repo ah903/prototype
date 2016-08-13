@@ -1,10 +1,14 @@
-angular.module("LockChain").controller("RegisterController", ["$scope", "$rootScope","HomeFactory", "AccountFactory", function($scope,$rootScope,HomeFactory,ConfigFactory){
+angular.module("LockChain").controller("RegisterController", ["$scope", "$routeParams","HomeFactory", "AccountFactory", function($scope,$routeParams,HomeFactory,AccountFactory){
 
 	console.log("Entered RegisterController");
+	$scope.accounts = AccountFactory.getAccounts();
+	$scope.defaultAccount = AccountFactory.getDefaultAccount();
+	$scope.selectedAccount=$routeParams.accountId;
 	initialise();
 
 	function initialise(){
 		$scope.attributes = [];
+		$scope.attributes.push({name:"Owner",value:$scope.selectedAccount,readOnly:true});
 		$scope.attributes.push({name:"Description",value:"Smart Lock",readOnly:true});
 		$scope.attributes.push({name:"Model",value:"TX14596V2",readOnly:true});
 		$scope.attributes.push({name:"Manufacturer",value:"Samsung",readOnly:true});
