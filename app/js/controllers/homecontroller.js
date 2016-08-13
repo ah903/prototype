@@ -3,7 +3,7 @@
 // Controller To Manage Dashboard Aspects Of The Application On The Home Page
 // Depends On Home Factory, Event Factory and Account Factory For Data
 ///////////////////////////////////////////////////////////////////////////////
-angular.module("LockChain").controller("HomeController", ["$scope", "$rootScope","HomeFactory", "AccountFactory","EventFactory", "LockFactory", function($scope,$rootScope,HomeFactory,AccountFactory,EventFactory,LockFactory){
+angular.module("LockChain").controller("HomeController", ["$scope", "$rootScope","RegisterFactory", "AccountFactory","EventFactory", "LockFactory", function($scope,$rootScope,HomeFactory,AccountFactory,EventFactory,LockFactory){
 
 	console.log("Entered HomeController");
 

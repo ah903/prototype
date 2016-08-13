@@ -1,4 +1,4 @@
-angular.module("LockChain").controller("RegisterController", ["$scope", "$routeParams","HomeFactory", "AccountFactory", function($scope,$routeParams,HomeFactory,AccountFactory){
+angular.module("LockChain").controller("RegisterController", ["$scope", "$routeParams","RegisterFactory", "AccountFactory", function($scope,$routeParams,HomeFactory,AccountFactory){
 
 	console.log("Entered RegisterController");
 	$scope.accounts = AccountFactory.getAccounts();

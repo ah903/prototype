@@ -3,7 +3,7 @@
 // Controller To Manage User Blockchain Accounts. These are assumed to be 
 // running locally on the Node although all calls are asynchronous
 ///////////////////////////////////////////////////////////////////////////////
-angular.module("LockChain").controller("AccountController", ["$scope", "AccountFactory", function($scope,ConfigFactory){
+angular.module("LockChain").controller("AccountController", ["$scope", "AccountFactory", function($scope,AccountFactory){
 
 	console.log("Entered Accountontroller");
 	initialise();
